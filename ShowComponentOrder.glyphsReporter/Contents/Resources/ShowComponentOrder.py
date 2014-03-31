@@ -6,6 +6,11 @@ from Foundation import *
 from AppKit import *
 import sys, os, re
 
+MainBundle = NSBundle.mainBundle()
+path = MainBundle.bundlePath() + "/Contents/Scripts"
+if not path in sys.path:
+	sys.path.append( path )
+
 GlyphsReporterProtocol = objc.protocolNamed( "GlyphsReporter" )
 
 class ShowComponentOrder ( NSObject, GlyphsReporterProtocol ):
@@ -14,9 +19,12 @@ class ShowComponentOrder ( NSObject, GlyphsReporterProtocol ):
 		"""
 		Unless you know what you are doing, leave this at "return self".
 		"""
-		#Bundle = NSBundle.bundleForClass_( NSClassFromString( self.className() ));
-		NSBezierPath.setDefaultLineJoinStyle_( NSRoundLineJoinStyle )
-		return self
+		try:
+			NSBezierPath.setDefaultLineJoinStyle_( NSRoundLineJoinStyle )
+			return self
+		except Exception as e:
+			self.logToConsole( "init: %s" % str(e) )
+			return self
 		
 	def title( self ):
 		"""
@@ -45,7 +53,10 @@ class ShowComponentOrder ( NSObject, GlyphsReporterProtocol ):
 		Pretty tricky to find a shortcut that is not taken yet, so be careful.
 		If you are not sure, use 'return None'. Users can set their own shortcuts in System Prefs.
 		"""
-		return "y"
+		try:
+			return "y"
+		except Exception as e:
+			self.logToConsole( "keyEquivalent: %s" % str(e) )
 		
 	def modifierMask( self ):
 		"""
@@ -55,7 +66,10 @@ class ShowComponentOrder ( NSObject, GlyphsReporterProtocol ):
 			return 0
 		... if you do not want to set a shortcut.
 		"""
-		return 0
+		try:
+			return 0
+		except Exception as e:
+			self.logToConsole( "modifierMask: %s" % str(e) )
 	
 	def getScale( self ):
 		"""
@@ -65,7 +79,7 @@ class ShowComponentOrder ( NSObject, GlyphsReporterProtocol ):
 		try:
 			return self.controller.graphicView().scale()
 		except:
-			self.logToConsole( "Scale defaulting to 1.0" )
+			self.logToConsole( "Scale defaulting to 1.0\ngetScale: %s" % str(e) )
 			return 1.0
 	
 	def drawForegroundForLayer_( self, Layer ):
@@ -132,4 +146,7 @@ class ShowComponentOrder ( NSObject, GlyphsReporterProtocol ):
 		"""
 		Use self.controller as object for the current view controller.
 		"""
-		self.controller = Controller
+		try:
+			self.controller = Controller
+		except Exception as e:
+			self.logToConsole( "setController_: %s" % str(e) )
