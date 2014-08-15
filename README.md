@@ -16,7 +16,7 @@ You can set a keyboard shortcut in System Preferences.
 ### Usage Instructions
 
 1. Open a glyph in Edit View.
-2. Use *View > Show Component Order* to toggle the the Component Order View.
+2. Use *View > Show Component Order* to toggle the Component Order View.
 
 ### License
 
