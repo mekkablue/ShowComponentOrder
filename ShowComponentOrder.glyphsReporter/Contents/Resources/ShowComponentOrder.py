@@ -112,7 +112,7 @@ class ShowComponentOrder ( NSObject, GlyphsReporterProtocol ):
 				
 				for i in range( numberOfComponents ):
 					difference = factor * float( i )
-					componentArea = theComponents[i].bezierPath()
+					componentArea = self.bezierPathComp(theComponents[i])
 					
 					NSColor.colorWithCalibratedRed_green_blue_alpha_( difference ** 2.0, 1.0 - difference, difference, 1.0 ).set()
 					componentArea.fill()
@@ -123,7 +123,14 @@ class ShowComponentOrder ( NSObject, GlyphsReporterProtocol ):
 					
 		except Exception as e:
 			self.logToConsole( str(e) )
-		
+
+	def bezierPathComp( self, thisPath ):
+		"""Compatibility method for bezierPath before v2.3."""
+		try:
+			return thisPath.bezierPath() # until v2.2
+		except Exception as e:
+			return thisPath.bezierPath # v2.3+
+
 	def drawBackgroundForLayer_( self, Layer ):
 		"""
 		Whatever you draw here will be displayed BEHIND the paths.
