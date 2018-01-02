@@ -2,8 +2,8 @@
 # encoding: utf-8
 
 import objc
-from Foundation import *
-from AppKit import *
+from GlyphsApp.plugins import *
+from AppKit import NSRoundLineJoinStyle
 import sys, os, re
 
 MainBundle = NSBundle.mainBundle()
