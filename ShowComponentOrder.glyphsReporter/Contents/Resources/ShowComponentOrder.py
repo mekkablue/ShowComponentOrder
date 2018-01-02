@@ -15,17 +15,6 @@ GlyphsReporterProtocol = objc.protocolNamed( "GlyphsReporter" )
 
 class ShowComponentOrder ( NSObject, GlyphsReporterProtocol ):
 	
-	def init( self ):
-		"""
-		Unless you know what you are doing, leave this at "return self".
-		"""
-		try:
-			NSBezierPath.setDefaultLineJoinStyle_( NSRoundLineJoinStyle )
-			return self
-		except Exception as e:
-			self.logToConsole( "init: %s" % str(e) )
-			return self
-		
 	def title( self ):
 		"""
 		This is the name as it appears in the menu in combination with 'Show'.
@@ -119,6 +108,7 @@ class ShowComponentOrder ( NSObject, GlyphsReporterProtocol ):
 					
 					NSColor.blackColor().set()
 					componentArea.setLineWidth_( 3.0 / self.getScale() )
+					componentArea.setLineJoinStyle_( NSRoundLineJoinStyle )
 					componentArea.stroke()
 					
 		except Exception as e:
