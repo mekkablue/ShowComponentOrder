@@ -13,7 +13,7 @@ You can set a keyboard shortcut in System Preferences.
 ### Installation
 
 1. In *Window > Plugin Manager,* click on the *Install* button next to *Show Component Order.*
-3. Restart Glyphs.
+2. Restart Glyphs.
 
 ### Usage Instructions
 
