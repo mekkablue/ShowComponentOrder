@@ -44,15 +44,15 @@ class ShowComponentOrder(ReporterPlugin):
 					colorfactor * (difference ** 2.0), # red
 					colorfactor * (1.0 - difference),  # green
 					colorfactor * difference,          # blue
-					1.0                                # alpha
+					0.6                                # alpha
 					).set()
 				componentArea.fill()
 				
-				# stroke
-				NSColor.blackColor().set()
-				componentArea.setLineJoinStyle_( NSRoundLineJoinStyle )
-				componentArea.setLineWidth_( 8.0 )
-				componentArea.stroke()
+				# # stroke
+				# NSColor.blackColor().set()
+				# componentArea.setLineJoinStyle_( NSRoundLineJoinStyle )
+				# componentArea.setLineWidth_( 8.0 )
+				# componentArea.stroke()
 			
 			NSColor.colorWithRed_green_blue_alpha_(0, 0, 0, 0.5).set()
 			for thisPath in Layer.paths:
