@@ -1,4 +1,5 @@
 # encoding: utf-8
+from __future__ import division, print_function, unicode_literals
 
 ###########################################################################################################
 #
@@ -17,46 +18,54 @@ from AppKit import NSRoundLineJoinStyle
 
 class ShowComponentOrder(ReporterPlugin):
 
+	@objc.python_method
 	def settings(self):
 		self.menuName = Glyphs.localize({
-			'en': u'Component Order',
-			'de': u'Reihenfolge der Komponenten',
-			'fr': u'ordre des components',
-			'nl': u'volgorde van componenten',
+			'en': 'Component Order',
+			'de': 'Reihenfolge der Komponenten',
+			'fr': 'ordre des components',
+			'es': 'orden de componentes'
+			'nl': 'volgorde van componenten',
 		})
-		
+	
+	@objc.python_method
 	def foreground(self, layer):
 		self.colorComponents( layer )
 		
-	def inactiveLayers(self, layer):
+	@objc.python_method
+	def inactiveLayerBackground(self, layer):
 		self.colorComponents( layer, colorfactor=0.8 )
 
+	@objc.python_method
 	def colorComponents(self, Layer, colorfactor=1.0):
 		if Layer.components:
 			factor = 1.0 / len(Layer.components)
 			
-			for i, thisComponent in enumerate( Layer.components ):
-				difference = factor * float( i )
-				componentArea = Layer.components[i].bezierPath
+			try:
+				# GLYPHS 3
+				layerObjects = Layer.shapes
+			except:
+				# GLYPHS 2
+				layerObjects = Layer.components
+			
+			for i, thisComponent in enumerate( layerObjects ):
+				if type(thisComponent) is GSComponent:
+					difference = factor * float( i )
+					componentArea = thisComponent.bezierPath
 				
-				# colored fill
-				NSColor.colorWithCalibratedRed_green_blue_alpha_( 
-					colorfactor * (difference ** 2.0), # red
-					colorfactor * (1.0 - difference),  # green
-					colorfactor * difference,          # blue
-					0.6                                # alpha
-					).set()
-				componentArea.fill()
-				
-				# # stroke
-				# NSColor.blackColor().set()
-				# componentArea.setLineJoinStyle_( NSRoundLineJoinStyle )
-				# componentArea.setLineWidth_( 8.0 )
-				# componentArea.stroke()
+					# colored fill
+					NSColor.colorWithCalibratedRed_green_blue_alpha_( 
+						colorfactor * (difference ** 2.0), # red
+						colorfactor * (1.0 - difference),  # green
+						colorfactor * difference,          # blue
+						0.6                                # alpha
+						).set()
+					componentArea.fill()
 			
 			NSColor.colorWithRed_green_blue_alpha_(0, 0, 0, 0.5).set()
 			for thisPath in Layer.paths:
 				thisPath.bezierPath.fill()
+	
 	
 	def needsExtraMainOutlineDrawingForInactiveLayer_(self, layer):
 		if layer.components:
@@ -64,3 +73,7 @@ class ShowComponentOrder(ReporterPlugin):
 		else:
 			return True
 	
+	@objc.python_method
+	def __file__(self):
+		"""Please leave this method unchanged"""
+		return __file__
