@@ -23,8 +23,8 @@ class ShowComponentOrder(ReporterPlugin):
 		self.menuName = Glyphs.localize({
 			'en': 'Component Order',
 			'de': 'Reihenfolge der Komponenten',
-			'fr': 'ordre des components',
-			'es': 'orden de componentes'
+			'fr': 'ordre des composants',
+			'es': 'orden de componentes',
 			'nl': 'volgorde van componenten',
 		})
 	
@@ -34,7 +34,7 @@ class ShowComponentOrder(ReporterPlugin):
 		
 	@objc.python_method
 	def inactiveLayerBackground(self, layer):
-		self.colorComponents( layer, colorfactor=0.8 )
+		self.colorComponents( layer, colorfactor=0.75 )
 
 	@objc.python_method
 	def colorComponents(self, Layer, colorfactor=1.0):
@@ -65,7 +65,6 @@ class ShowComponentOrder(ReporterPlugin):
 			NSColor.colorWithRed_green_blue_alpha_(0, 0, 0, 0.5).set()
 			for thisPath in Layer.paths:
 				thisPath.bezierPath.fill()
-	
 	
 	def needsExtraMainOutlineDrawingForInactiveLayer_(self, layer):
 		if layer.components:

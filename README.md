@@ -2,11 +2,9 @@
 
 This is a plugin for the [Glyphs font editor](http://glyphsapp.com/).
 
-It displays components in different colors depending on the order of the component. This way, you can quickly spot an order mistake.
+*View > Show Component Order* (de: *Reihenfolge der Komponenten anzeigen,* fr: *Afficher ordre des composants,* es: *Mostrar orden de componentes,* nl: *Toon volgorde van componenten*) displays components in different colors depending on the order of the component. This way, you can quickly spot an order mistake.
 
 ![Components are shown in different colors.](ShowComponentOrder.png "Show Component Order Screenshot")
-
-After installation, it will add the menu item *View > Show Component Order* (de: *Zeige Reihenfolge der Komponenten,* fr: *Montrer ordre des components,* nl: *Toon volgorde van componenten*).
 
 You can set a keyboard shortcut in System Preferences.
 
