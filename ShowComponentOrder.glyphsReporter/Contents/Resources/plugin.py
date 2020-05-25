@@ -58,28 +58,29 @@ class ShowComponentOrder(ReporterPlugin):
 						colorfactor * (difference ** 2.0), # red
 						colorfactor * (1.0 - difference),  # green
 						colorfactor * difference,          # blue
-						0.7, # alpha
+						0.67, # alpha
 						)
 					
 					if selectionCounts and thisShape in Layer.selection:
-						componentColor.highlightWithLevel_(0.5).set()
+						componentColor.highlightWithLevel_(0.33).set()
 					else:
 						componentColor.set()
 					componentArea.fill()
 					
-					if not thisShape.automaticAlignment:
+					if not thisShape.doesAlign():
 						componentColor.colorWithAlphaComponent_(0.8).set()
 						componentArea.setLineWidth_(2.0/self.getScale())
 						componentArea.setLineDash_count_phase_((4/self.getScale()**0.9,3/self.getScale()**0.9),2,0.0)
 						componentArea.stroke()
 				else:
 					# GLYPHS 3
-					NSColor.textColor.colorWithAlphaComponent_(0.4).set()
+					NSColor.textColor().colorWithAlphaComponent_(0.4).set()
 					thisShape.bezierPath.fill()
 			
 			if Glyphs.versionNumber < 3.0:
-				NSColor.textColor.colorWithAlphaComponent_(0.4).set()
-				Layer.bezierPath.fill()
+				NSColor.textColor().colorWithAlphaComponent_(0.4).set()
+				for thisPath in Layer.paths:
+					thisPath.bezierPath.fill()
 	
 	def needsExtraMainOutlineDrawingForInactiveLayer_(self, layer):
 		if layer.components:
