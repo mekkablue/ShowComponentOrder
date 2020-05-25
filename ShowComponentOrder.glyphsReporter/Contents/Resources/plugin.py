@@ -34,10 +34,10 @@ class ShowComponentOrder(ReporterPlugin):
 		
 	@objc.python_method
 	def inactiveLayerBackground(self, layer):
-		self.colorComponents( layer, colorfactor=0.65 )
+		self.colorComponents( layer, colorfactor=0.6, selectionCounts=False )
 
 	@objc.python_method
-	def colorComponents(self, Layer, colorfactor=1.0):
+	def colorComponents(self, Layer, colorfactor=1.0, selectionCounts=True):
 		if Layer.components:
 			factor = 1.0 / len(Layer.components)
 			
@@ -61,7 +61,7 @@ class ShowComponentOrder(ReporterPlugin):
 						0.7, # alpha
 						)
 					
-					if thisComponent in Layer.selection:
+					if selectionCounts and thisComponent in Layer.selection:
 						componentColor.highlightWithLevel_(0.7).set()
 					else:
 						componentColor.set()
