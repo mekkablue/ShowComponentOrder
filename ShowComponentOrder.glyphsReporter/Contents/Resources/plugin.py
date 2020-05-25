@@ -34,7 +34,7 @@ class ShowComponentOrder(ReporterPlugin):
 		
 	@objc.python_method
 	def inactiveLayerBackground(self, layer):
-		self.colorComponents( layer, colorfactor=0.75 )
+		self.colorComponents( layer, colorfactor=0.65 )
 
 	@objc.python_method
 	def colorComponents(self, Layer, colorfactor=1.0):
@@ -54,15 +54,26 @@ class ShowComponentOrder(ReporterPlugin):
 					componentArea = thisComponent.bezierPath
 				
 					# colored fill
-					NSColor.colorWithCalibratedRed_green_blue_alpha_( 
+					componentColor = NSColor.colorWithCalibratedRed_green_blue_alpha_( 
 						colorfactor * (difference ** 2.0), # red
 						colorfactor * (1.0 - difference),  # green
 						colorfactor * difference,          # blue
-						0.6                                # alpha
-						).set()
+						0.7, # alpha
+						)
+					
+					if thisComponent in Layer.selection:
+						componentColor.highlightWithLevel_(0.7).set()
+					else:
+						componentColor.set()
 					componentArea.fill()
+					
+					if not thisComponent.automaticAlignment:
+						componentColor.colorWithAlphaComponent_(0.8).set()
+						componentArea.setLineWidth_(2.0/self.getScale())
+						componentArea.setLineDash_count_phase_((4/self.getScale()**0.9,3/self.getScale()**0.9),2,0.0)
+						componentArea.stroke()
 			
-			NSColor.colorWithRed_green_blue_alpha_(0, 0, 0, 0.5).set()
+			NSColor.textColor.colorWithAlphaComponent_(0.4).set()
 			for thisPath in Layer.paths:
 				thisPath.bezierPath.fill()
 	
