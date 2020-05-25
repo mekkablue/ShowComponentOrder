@@ -48,10 +48,10 @@ class ShowComponentOrder(ReporterPlugin):
 				# GLYPHS 2
 				layerObjects = Layer.components
 			
-			for i, thisComponent in enumerate( layerObjects ):
-				if type(thisComponent) is GSComponent:
+			for i, thisShape in enumerate( layerObjects ):
+				if type(thisShape) is GSComponent:
 					difference = factor * float( i )
-					componentArea = thisComponent.bezierPath
+					componentArea = thisShape.bezierPath
 				
 					# colored fill
 					componentColor = NSColor.colorWithCalibratedRed_green_blue_alpha_( 
@@ -61,21 +61,25 @@ class ShowComponentOrder(ReporterPlugin):
 						0.7, # alpha
 						)
 					
-					if selectionCounts and thisComponent in Layer.selection:
-						componentColor.highlightWithLevel_(0.7).set()
+					if selectionCounts and thisShape in Layer.selection:
+						componentColor.highlightWithLevel_(0.5).set()
 					else:
 						componentColor.set()
 					componentArea.fill()
 					
-					if not thisComponent.automaticAlignment:
+					if not thisShape.automaticAlignment:
 						componentColor.colorWithAlphaComponent_(0.8).set()
 						componentArea.setLineWidth_(2.0/self.getScale())
 						componentArea.setLineDash_count_phase_((4/self.getScale()**0.9,3/self.getScale()**0.9),2,0.0)
 						componentArea.stroke()
+				else:
+					# GLYPHS 3
+					NSColor.textColor.colorWithAlphaComponent_(0.4).set()
+					thisShape.bezierPath.fill()
 			
-			NSColor.textColor.colorWithAlphaComponent_(0.4).set()
-			for thisPath in Layer.paths:
-				thisPath.bezierPath.fill()
+			if Glyphs.versionNumber < 3.0:
+				NSColor.textColor.colorWithAlphaComponent_(0.4).set()
+				Layer.bezierPath.fill()
 	
 	def needsExtraMainOutlineDrawingForInactiveLayer_(self, layer):
 		if layer.components:
