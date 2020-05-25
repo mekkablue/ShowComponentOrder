@@ -13,15 +13,15 @@
 	<key>CFBundleName</key>
 	<string>ShowComponentOrder</string>
 	<key>CFBundleVersion</key>
-	<string>10</string>
+	<string>11</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.3</string>
+	<string>2.0.4</string>
 	<key>UpdateFeedURL</key>
 	<string>https://raw.githubusercontent.com/mekkablue/ShowComponentOrder/master/ShowComponentOrder.glyphsReporter/Contents/Info.plist</string>
 	<key>productPageURL</key>
 	<string>https://github.com/mekkablue/ShowComponentOrder</string>
 	<key>productReleaseNotes</key>
-	<string>Better highlighting.</string>
+	<string>Correctly determine alignment status.</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright, Rainer Erich Scheichelbauer, 2014-2018</string>
 	<key>NSPrincipalClass</key>

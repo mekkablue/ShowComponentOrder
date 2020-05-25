@@ -71,10 +71,11 @@ class ShowComponentOrder(ReporterPlugin):
 					componentArea.fill()
 					
 					if shapeSelected or shapeUnaligned:
-						componentColor.colorWithAlphaComponent_(0.8).set()
 						if shapeSelected:
+							componentArea.colorfactor
 							componentArea.setLineWidth_(3.0/self.getScale()**0.9)
 						else:
+							componentColor.colorWithAlphaComponent_(0.8).set()
 							componentArea.setLineWidth_(2.0/self.getScale()**0.9)
 						if shapeUnaligned:
 							componentArea.setLineDash_count_phase_((4/self.getScale()**0.9,3/self.getScale()**0.9),2,0.0)
