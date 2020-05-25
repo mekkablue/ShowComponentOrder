@@ -14,7 +14,7 @@ from __future__ import division, print_function, unicode_literals
 
 from GlyphsApp import *
 from GlyphsApp.plugins import *
-from AppKit import NSRoundLineJoinStyle
+from AppKit import NSRoundLineJoinStyle #, NSLineJoinStyleRound
 
 class ShowComponentOrder(ReporterPlugin):
 
@@ -61,16 +61,24 @@ class ShowComponentOrder(ReporterPlugin):
 						0.67, # alpha
 						)
 					
-					if selectionCounts and thisShape in Layer.selection:
+					shapeSelected = selectionCounts and thisShape in Layer.selection
+					shapeUnaligned = not (thisShape.automaticAlignment and thisShape.isAligned() == 2)
+					
+					if shapeSelected:
 						componentColor.highlightWithLevel_(0.33).set()
 					else:
 						componentColor.set()
 					componentArea.fill()
 					
-					if not thisShape.doesAlign():
+					if shapeSelected or shapeUnaligned:
 						componentColor.colorWithAlphaComponent_(0.8).set()
-						componentArea.setLineWidth_(2.0/self.getScale())
-						componentArea.setLineDash_count_phase_((4/self.getScale()**0.9,3/self.getScale()**0.9),2,0.0)
+						if shapeSelected:
+							componentArea.setLineWidth_(3.0/self.getScale()**0.9)
+						else:
+							componentArea.setLineWidth_(2.0/self.getScale()**0.9)
+						if shapeUnaligned:
+							componentArea.setLineDash_count_phase_((4/self.getScale()**0.9,3/self.getScale()**0.9),2,0.0)
+						componentArea.setLineJoinStyle_(NSRoundLineJoinStyle)
 						componentArea.stroke()
 				else:
 					# GLYPHS 3
