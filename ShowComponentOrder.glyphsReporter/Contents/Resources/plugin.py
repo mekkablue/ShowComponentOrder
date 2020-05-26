@@ -70,9 +70,10 @@ class ShowComponentOrder(ReporterPlugin):
 						componentColor.set()
 					componentArea.fill()
 					
+					# draw contour if selected or unaligned:
 					if shapeSelected or shapeUnaligned:
 						if shapeSelected:
-							componentArea.colorfactor
+							#componentColor.colorWithAlphaComponent_(1.0).set()
 							componentArea.setLineWidth_(3.0/self.getScale()**0.9)
 						else:
 							componentColor.colorWithAlphaComponent_(0.8).set()
