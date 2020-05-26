@@ -48,6 +48,7 @@ class ShowComponentOrder(ReporterPlugin):
 				# GLYPHS 2
 				layerObjects = Layer.components
 			
+			pathBezier = NSBezierPath.bezierPath()
 			for i, thisShape in enumerate( layerObjects ):
 				if type(thisShape) is GSComponent:
 					difference = factor * float( i )
@@ -84,13 +85,15 @@ class ShowComponentOrder(ReporterPlugin):
 						componentArea.stroke()
 				else:
 					# GLYPHS 3
-					NSColor.textColor().colorWithAlphaComponent_(0.4).set()
-					thisShape.bezierPath.fill()
-			
+					pathBezier.appendBezierPath_(thisShape.bezierPath)
+
+			# GLYPHS 2:
 			if Glyphs.versionNumber < 3.0:
-				NSColor.textColor().colorWithAlphaComponent_(0.4).set()
 				for thisPath in Layer.paths:
-					thisPath.bezierPath.fill()
+					pathBezier.appendBezierPath_(thisPath.bezierPath)
+					
+			NSColor.textColor().colorWithAlphaComponent_(0.25).set()
+			pathBezier.fill()
 	
 	def needsExtraMainOutlineDrawingForInactiveLayer_(self, layer):
 		if layer.components:
