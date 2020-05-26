@@ -37,8 +37,23 @@ class ShowComponentOrder(ReporterPlugin):
 		self.colorComponents( layer, colorfactor=0.6, selectionCounts=False )
 
 	@objc.python_method
+	def conditionsAreMetForDrawing(self):
+		"""
+		Don't activate if text or pan (hand) tool are active.
+		"""
+		currentController = self.controller.view().window().windowController()
+		if currentController:
+			tool = currentController.toolDrawDelegate()
+			textToolIsActive = tool.isKindOfClass_( NSClassFromString("GlyphsToolText") )
+			handToolIsActive = tool.isKindOfClass_( NSClassFromString("GlyphsToolHand") )
+			if not textToolIsActive and not handToolIsActive: 
+				return True
+		return False
+	
+	@objc.python_method
 	def colorComponents(self, Layer, colorfactor=1.0, selectionCounts=True):
 		if Layer.components:
+			currentlyEditing = self.conditionsAreMetForDrawing()
 			factor = 1.0 / len(Layer.components)
 			
 			try:
@@ -73,7 +88,7 @@ class ShowComponentOrder(ReporterPlugin):
 					
 					# draw contour if selected or unaligned:
 					if shapeSelected or shapeUnaligned:
-						if shapeSelected:
+						if shapeSelected and currentlyEditing:
 							#componentColor.colorWithAlphaComponent_(1.0).set()
 							componentArea.setLineWidth_(3.0/self.getScale()**0.9)
 						else:
