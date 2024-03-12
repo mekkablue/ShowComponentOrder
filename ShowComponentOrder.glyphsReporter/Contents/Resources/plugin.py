@@ -14,7 +14,7 @@ from __future__ import division, print_function, unicode_literals
 
 from GlyphsApp import *
 from GlyphsApp.plugins import *
-from AppKit import NSRoundLineJoinStyle #, NSLineJoinStyleRound
+from AppKit import NSColor, NSRoundLineJoinStyle, NSClassFromString, NSBezierPath, NSAffineTransform, NSMidY
 
 class ShowComponentOrder(ReporterPlugin):
 
@@ -51,15 +51,45 @@ class ShowComponentOrder(ReporterPlugin):
 		return False
 	
 	@objc.python_method
+	def fitLayerInFrame(self, layer, frame):
+		scaleFactor = frame.size.height / ((layer.ascender - layer.descender) * 1.3)
+		scale = NSAffineTransform.transform()
+		scale.translateXBy_yBy_(
+			frame.origin.x + (frame.size.width - (layer.width * scaleFactor)) / 2.0,
+			NSMidY(frame) - (layer.ascender * scaleFactor * 0.5) - (layer.descender * scaleFactor * 0.125),
+		)
+		scale.scaleBy_(scaleFactor)
+		return scale
+	
+	def drawFontViewForegroundForLayer_inFrame_(self, layer, frame):
+		if not layer.components:
+			return
+		scale = self.fitLayerInFrame(layer, frame)
+		components = layer.components
+		factor = 1.0 / len(components)
+		for i, thisShape in enumerate(components):
+			difference = factor * i
+			shapeColor = NSColor.colorWithCalibratedRed_green_blue_alpha_( 
+				(difference ** 2.0), # red
+				(1.0 - difference),  # green
+				difference,          # blue
+				0.8, # alpha
+				)
+			shapeColor.set()
+			shapeArea = thisShape.bezierPath
+			shapeArea.transformUsingAffineTransform_(scale)
+			shapeArea.fill()
+		
+	@objc.python_method
 	def colorComponents(self, Layer, colorfactor=1.0, selectionCounts=True):
 		if Layer.components:
 			currentlyEditing = self.conditionsAreMetForDrawing()
 			factor = 1.0 / len(Layer.components)
 			
-			try:
+			if Glyphs.versionNumber >= 3:
 				# GLYPHS 3
 				layerObjects = Layer.shapes
-			except:
+			else:
 				# GLYPHS 2
 				layerObjects = Layer.components
 			

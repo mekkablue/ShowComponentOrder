@@ -13,17 +13,17 @@
 	<key>CFBundleName</key>
 	<string>ShowComponentOrder</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.9</string>
+	<string>2.1</string>
 	<key>CFBundleVersion</key>
-	<string>17</string>
+	<string>18</string>
 	<key>UpdateFeedURL</key>
 	<string>https://raw.githubusercontent.com/mekkablue/ShowComponentOrder/master/ShowComponentOrder.glyphsReporter/Contents/Info.plist</string>
 	<key>productPageURL</key>
 	<string>https://github.com/mekkablue/ShowComponentOrder</string>
 	<key>productReleaseNotes</key>
-	<string>update binary files for Glyphs3</string>
+	<string>Also draw in Font View (app version 3.2+)</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright, Rainer Erich Scheichelbauer, 2014-2018</string>
+	<string>Copyright, Rainer Erich Scheichelbauer, 2014-2024</string>
 	<key>NSPrincipalClass</key>
 	<string>ShowComponentOrder</string>
 	<key>PyMainFileNames</key>
