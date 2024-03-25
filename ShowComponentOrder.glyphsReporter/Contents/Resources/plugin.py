@@ -52,11 +52,20 @@ class ShowComponentOrder(ReporterPlugin):
 	
 	@objc.python_method
 	def fitLayerInFrame(self, layer, frame):
-		scaleFactor = frame.size.height / ((layer.ascender - layer.descender) * 1.3)
+		ascender, descender = layer.ascender, layer.descender
+		master = layer.master
+		previewAscender = master.customParameters["Preview Ascender"]
+		if not previewAscender is None:
+			ascender = abs(previewAscender)
+		previewDescender = master.customParameters["Preview Descender"]
+		if not previewDescender is None:
+			descender = -abs(previewDescender)
+		
+		scaleFactor = frame.size.height / ((ascender - descender) * 1.3)
 		scale = NSAffineTransform.transform()
 		scale.translateXBy_yBy_(
 			frame.origin.x + (frame.size.width - (layer.width * scaleFactor)) / 2.0,
-			NSMidY(frame) - (layer.ascender * scaleFactor * 0.5) - (layer.descender * scaleFactor * 0.125),
+			NSMidY(frame) - (ascender * scaleFactor * 0.5) - (descender * scaleFactor * 0.125),
 		)
 		scale.scaleBy_(scaleFactor)
 		return scale
