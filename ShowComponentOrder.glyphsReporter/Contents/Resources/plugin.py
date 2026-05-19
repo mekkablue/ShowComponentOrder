@@ -17,6 +17,10 @@ from GlyphsApp.plugins import *
 from AppKit import NSColor, NSRoundLineJoinStyle, NSClassFromString, NSBezierPath, NSAffineTransform, NSMidY
 
 class ShowComponentOrder(ReporterPlugin):
+	
+	@objc.python_method
+	def start(self):
+		GSCallbackHandler.addCallback_forOperation_(self, "DrawFontView")
 
 	@objc.python_method
 	def settings(self):
@@ -70,6 +74,7 @@ class ShowComponentOrder(ReporterPlugin):
 		scale.scaleBy_(scaleFactor)
 		return scale
 	
+	@objc.signature(b'v@:@{CGRect={CGPoint=dd}{CGSize=dd}}')
 	def drawFontViewForegroundForLayer_inFrame_(self, layer, frame):
 		if not layer.components:
 			return
