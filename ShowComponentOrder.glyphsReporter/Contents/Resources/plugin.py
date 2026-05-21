@@ -17,10 +17,6 @@ from GlyphsApp.plugins import *
 from AppKit import NSColor, NSRoundLineJoinStyle, NSClassFromString, NSBezierPath, NSAffineTransform, NSMidY
 
 class ShowComponentOrder(ReporterPlugin):
-	
-	@objc.python_method
-	def start(self):
-		GSCallbackHandler.addCallback_forOperation_(self, "DrawFontView")
 
 	@objc.python_method
 	def settings(self):
