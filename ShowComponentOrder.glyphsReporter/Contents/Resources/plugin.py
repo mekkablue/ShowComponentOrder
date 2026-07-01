@@ -12,9 +12,10 @@ from __future__ import division, print_function, unicode_literals
 #
 ###########################################################################################################
 
-from GlyphsApp import *
-from GlyphsApp.plugins import *
-from AppKit import NSColor, NSRoundLineJoinStyle, NSClassFromString, NSBezierPath, NSAffineTransform, NSMidY
+import objc
+from GlyphsApp import Glyphs, GSComponent
+from GlyphsApp.plugins import ReporterPlugin
+from Cocoa import NSColor, NSRoundLineJoinStyle, NSClassFromString, NSBezierPath, NSAffineTransform, NSMidY
 
 class ShowComponentOrder(ReporterPlugin):
 
